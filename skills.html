@@ -1,0 +1,137 @@
+<!-- skills.html: Skills & Expertise -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helena Andrés Terre - Skills & Expertise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif; /* Changed font to Outfit */
+            background-color: #F9FAFB;
+            color: #374151;
+        }
+        .skill-bar-fill {
+            height: 100%;
+            border-radius: 9999px;
+            background-color: #6B7280; /* Medium grey for skill bars */
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="bg-gray-800 p-4 shadow-lg">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <a href="index.html" class="text-white text-3xl font-bold rounded-lg p-2 hover:bg-gray-700 transition-colors duration-300">Helena Andrés Terre</a>
+            <div class="mt-4 md:mt-0 flex flex-wrap justify-center space-x-4">
+                <a href="index.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition-colors duration-300">Home</a>
+                <a href="skills.html" class="text-white bg-gray-700 px-3 py-2 rounded-md text-lg font-medium transition-colors duration-300">Skills & Expertise</a>
+                <a href="values.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition-colors duration-300">Core Values</a>
+                <a href="career.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition-colors duration-300">Career Journey</a>
+                <a href="interests.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition-colors duration-300">Beyond Work</a>
+                <a href="portfolio.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition-colors duration-300">Portfolio & Insights</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto p-6 md:p-10">
+        <section class="bg-white p-8 rounded-xl shadow-md mb-10">
+            <h1 class="text-4xl font-bold text-gray-800 mb-6 text-center">My Skills & Expertise</h1>
+            <p class="text-lg text-gray-700 text-center max-w-2xl mx-auto leading-relaxed">
+                A comprehensive overview of my technical proficiencies, professional experience, and key soft skills.
+            </p>
+        </section>
+
+        <!-- Technical Skills -->
+        <section class="bg-white p-8 rounded-xl shadow-md mb-10">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Technical Skills</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Skill Category: Programming Languages -->
+                <div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-3 flex items-center">
+                        <span class="text-gray-600 mr-2 text-3xl">&#128187;</span> Programming Languages
+                    </h3>
+                    <ul class="space-y-4 text-gray-700">
+                        <li>Python <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1"><div class="skill-bar-fill" style="width: 95%;"></div></div></li>
+                        <li>JavaScript <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1"><div class="skill-bar-fill" style="width: 85%;"></div></div></li>
+                        <li>Go <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1"><div class="skill-bar-fill" style="width: 70%;"></div></div></li>
+                        <li>SQL <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1"><div class="skill-bar-fill" style="width: 90%;"></div></div></li>
+                    </ul>
+                </div>
+                <!-- Skill Category: AI/ML Frameworks -->
+                <div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-3 flex items-center">
+                        <span class="text-gray-600 mr-2 text-3xl">&#129504;</span> AI/ML Frameworks
+                    </h3>
+                    <ul class="space-y-4 text-gray-700">
+                        <li>TensorFlow/Keras <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1"><div class="skill-bar-fill" style="width: 90%;"></div></div></li>
+                        <li>PyTorch <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1"><div class="skill-bar-fill" style="width: 80%;"></div></div></li>
+                        <li>Scikit-learn <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1"><div class="skill-bar-fill" style="width: 95%;"></div></div></li>
+                        <li>Hugging Face Transformers <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1"><div class="skill-bar-fill" style="width: 75%;"></div></div></li>
+                    </ul>
+                </div>
+                <!-- Skill Category: Cloud & DevOps -->
+                <div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-3 flex items-center">
+                        <span class="text-gray-600 mr-2 text-3xl">&#9729;&#65039;</span> Cloud & DevOps
+                    </h3>
+                    <ul class="space-y-4 text-gray-700">
+                        <li>AWS (EC2, S3, Lambda) <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1"><div class="skill-bar-fill" style="width: 80%;"></div></div></li>
+                        <li>Docker <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1"><div class="skill-bar-fill" style="width: 85%;"></div></div></li>
+                        <li>Git/GitHub <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1"><div class="skill-bar-fill" style="width: 95%;"></div></div></li>
+                        <li>CI/CD (GitHub Actions) <div class="w-full bg-gray-200 rounded-full h-2.5 mt-1"><div class="skill-bar-fill" style="width: 70%;"></div></div></li>
+                    </ul>
+                </div>
+                <!-- Add more skill categories as needed -->
+            </div>
+        </section>
+
+        <!-- Soft Skills -->
+        <section class="bg-white p-8 rounded-xl shadow-md">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Key Soft Skills</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <span class="text-gray-600 text-5xl mb-3 block">&#128172;</span>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-2">Communication</h3>
+                    <p class="text-gray-700">Articulating complex ideas clearly to diverse audiences.</p>
+                </div>
+                <div class="text-center">
+                    <span class="text-gray-600 text-5xl mb-3 block">&#129504;</span>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-2">Problem-Solving</h3>
+                    <p class="text-gray-700">Analytical approach to identify root causes and devise effective solutions.</p>
+                </div>
+                <div class="text-center">
+                    <span class="text-gray-600 text-5xl mb-3 block">&#128100;</span>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-2">Collaboration</h3>
+                    <p class="text-gray-700">Fostering teamwork and achieving shared goals effectively.</p>
+                </div>
+                <div class="text-center">
+                    <span class="text-gray-600 text-5xl mb-3 block">&#128218;</span>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-2">Adaptability</h3>
+                    <p class="text-gray-700">Thriving in dynamic environments and embracing new challenges.</p>
+                </div>
+                <div class="text-center">
+                    <span class="text-gray-600 text-5xl mb-3 block">&#128161;</span>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-2">Innovation</h3>
+                    <p class="text-gray-700">Driving creative solutions and forward-thinking approaches.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white p-6 text-center mt-10">
+        <div class="container mx-auto">
+            <p>&copy; 2025 Helena Andrés Terre. All rights reserved.</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <a href="https://linkedin.com/in/helenaandres" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300">LinkedIn</a>
+                <a href="https://github.com/helenaandres" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300">GitHub</a>
+                <a href="mailto:your-email@example.com" class="text-gray-400 hover:text-white transition-colors duration-300">Email</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
