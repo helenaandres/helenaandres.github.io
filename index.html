@@ -1,3 +1,4 @@
+<!-- index.html: Minimalist Landing Page -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +23,7 @@
 
         /* Header specific styles */
         .header-bg {
-            background-color: #E5E7EB; /* Lighter pastel grey for header */
+            background-color: #F8F8F8; /* Lighter pastel grey, matching chatbot background */
         }
         .header-logo {
             display: flex;
@@ -30,6 +31,12 @@
             justify-content: center;
             width: 2.5rem; /* Size of the Saturn icon */
             height: 2.5rem;
+        }
+        .header-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensure the image fits within the defined logo area */
+            filter: grayscale(100%) brightness(50%); /* Make it grey and slightly darker if needed */
         }
         .burger-icon {
             display: flex;
@@ -210,15 +217,13 @@
 </head>
 <body class="flex flex-col min-h-screen items-center p-0">
     <!-- Header -->
-    <header class="header-bg w-full py-4 px-6 flex justify-between items-center shadow-md fixed top-0 left-0 z-10">
+    <header class="header-bg w-full py-2 px-6 flex justify-between items-center shadow-md fixed top-0 z-10">
         <a href="index.html" class="header-logo">
-            <!-- Saturn SVG Icon -->
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2Z" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M22 12C22 14.7614 17.5228 17 12 17C6.47715 17 2 14.7614 2 12" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M2.5 14.5C2.5 16.2905 6.85786 17.75 12 17.75C17.1421 17.75 21.5 16.2905 21.5 14.5" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M2.5 9.5C2.5 7.70954 6.85786 6.25 12 6.25C17.1421 6.25 21.5 7.70954 21.5 9.5" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <!-- Saturn Image Icon -->
+            <img src="photos\planet.svg"
+                 alt="Saturn Icon"
+                 onerror="this.onerror=null;this.src='https://placehold.co/32x32/E0E0E0/6B7280?text=Saturn';"
+                 style="filter: grayscale(100%) brightness(50%);">
         </a>
         <div class="burger-icon md:hidden" id="burgerIcon">
             <div></div>
@@ -237,7 +242,7 @@
         <a href="portfolio.html">Portfolio & Insights</a>
     </nav>
 
-    <main class="flex flex-col items-center justify-center text-center flex-grow w-full max-w-4xl mx-auto pt-24 pb-12 px-4"> <!-- Added pt-24 for header clearance -->
+    <main class="flex flex-col items-center justify-center text-center flex-grow w-full max-w-4xl mx-auto pt-16 pb-12 px-4"> <!-- Adjusted pt-16 for thinner header clearance -->
         <!-- Welcome Message -->
         <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-10 leading-tight">
             <span class="uppercase text-2xl md:text-3xl font-normal tracking-wide">Welcome to</span> <br>
