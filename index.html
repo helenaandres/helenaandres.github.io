@@ -7,47 +7,29 @@
     <title>Helena Andrés Terre - Welcome</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Outfit -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Playfair Display (for headings), Lato (for body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Outfit', sans-serif; /* Changed font to Outfit */
-            background-color: #F9FAFB; /* Very light grey background */
-            color: #374151; /* Dark grey text */
-            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+            font-family: 'Lato', sans-serif; /* Body font */
+            background-color: #FDFDFD; /* Very light, almost white background */
+            color: #222222; /* Very dark grey for main text */
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
-
-        /* Abstract Geometric Background Images */
-        .geometric-bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            overflow: hidden;
-            z-index: -1;
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif; /* Headings font */
         }
-        .geometric-bg img {
-            position: absolute;
-            opacity: 0.1; /* Subtle opacity */
-            filter: grayscale(100%); /* Ensure greyscale */
-            transition: transform 0.8s ease-out;
-        }
-        .geometric-bg img:nth-child(1) { top: 10%; left: -5%; width: 30%; transform: rotate(15deg); }
-        .geometric-bg img:nth-child(2) { bottom: 5%; right: -10%; width: 40%; transform: rotate(-30deg); }
-        .geometric-bg img:nth-child(3) { top: 40%; left: 30%; width: 20%; transform: rotate(60deg); }
-        .geometric-bg img:nth-child(4) { bottom: 20%; left: 10%; width: 25%; transform: rotate(-10deg); }
 
         /* Button Container for Circular Layout */
         .button-circle-container {
             position: relative;
-            width: 320px; /* Base size for the circle, slightly larger */
+            width: 320px; /* Base size for the circle */
             height: 320px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 9999px; /* Makes the container circular */
-            background-color: rgba(209, 213, 219, 0.3); /* Very light grey, semi-transparent */
+            background-color: rgba(220, 220, 220, 0.4); /* Light, semi-transparent grey */
             transition: all 0.4s ease-in-out;
             transform: scale(1);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -64,8 +46,8 @@
         .futuristic-button {
             position: absolute; /* Absolute positioning for circular arrangement */
             background-color: #D1D5DB; /* Light grey for buttons */
-            color: #374151; /* Dark grey text */
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            color: #333333; /* Dark grey text */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
             border-radius: 9999px; /* Make buttons circular */
             display: flex;
@@ -77,30 +59,31 @@
             height: 100px;
             font-size: 0.9rem; /* Adjust font size for circular button */
             padding: 0.5rem; /* Adjust padding for text fit */
+            font-family: 'Lato', sans-serif; /* Ensure Lato for button text */
         }
         .futuristic-button:hover {
             background-color: #E5E7EB; /* Lighter grey on hover (light up effect) */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             transform: scale(1.05); /* Subtle growth on hover */
         }
 
         /* Chatbot Specific Styles */
         .chatbot-window {
-            background-color: #E5E7EB; /* Light grey for chatbot box */
-            border: 1px solid #D1D5DB; /* Slightly darker light grey border */
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            background-color: #F8F8F8; /* Light grey for chatbot box */
+            border: 1px solid #E0E0E0; /* Subtle light grey border */
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05); /* Very subtle shadow */
         }
         .chatbot-history {
             background-color: #ffffff; /* White chat history background */
-            border: 1px solid #D1D5DB;
+            border: 1px solid #E0E0E0;
         }
         .user-message {
-            background-color: #F3F4F6; /* Very light grey for user messages */
-            color: #4B5563; /* Medium dark grey text */
+            background-color: #F0F0F0; /* Light grey for user messages */
+            color: #333333; /* Dark grey text */
         }
         .bot-message {
-            background-color: #E5E7EB; /* Light grey for bot messages */
-            color: #374151; /* Dark grey text */
+            background-color: #E8E8E8; /* Slightly darker light grey for bot messages */
+            color: #222222; /* Dark grey text */
         }
 
         /* Responsive adjustments for buttons */
@@ -117,32 +100,28 @@
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen items-center justify-center p-4 relative">
+<body class="flex flex-col min-h-screen items-center justify-center p-4">
 
-    <!-- Abstract Geometric Background Images -->
-    <div class="geometric-bg">
-        <img src="https://placehold.co/800x600/F3F4F6/9CA3AF?text=Shape" alt="Abstract Geometric Shape 1">
-        <img src="https://placehold.co/1000x700/E5E7EB/6B7280?text=Shape" alt="Abstract Geometric Shape 2">
-        <img src="https://placehold.co/500x500/D1D5DB/4B5563?text=Shape" alt="Abstract Geometric Shape 3">
-        <img src="https://placehold.co/700x500/F9FAFB/9CA3AF?text=Shape" alt="Abstract Geometric Shape 4">
-    </div>
-
-    <main class="flex flex-col items-center justify-center text-center flex-grow w-full max-w-4xl mx-auto relative z-10">
+    <main class="flex flex-col items-center justify-center text-center flex-grow w-full max-w-4xl mx-auto">
         <!-- Welcome Message -->
-        <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-10 leading-tight">
-            <span class="uppercase">Welcome to</span> <span class="text-gray-700">Helena Andrés Terre's</span> site
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-10 leading-tight">
+            <span class="uppercase text-2xl md:text-3xl font-normal tracking-wide">Welcome to</span> <br>
+            <span class="text-4xl md:text-5xl font-bold text-[#444444]">Helena Andrés Terre's site</span>
         </h1>
+        <p class="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed mb-12">
+            I’m currently an Associate Director at UCB Pharma, where I lead innovation at the intersection of data science, medicine, and patient value. At heart, I’m a physicist and mathematician—an unapologetic science nerd—driven by curiosity, collaboration, and the joy of solving complex problems. Whether you're a fellow researcher, collaborator, recruiter, or friend, I hope this site gives you a glimpse into the values I live by, the work I love, and the people and ideas that inspire me.
+        </p>
 
         <!-- Chatbot Window -->
-        <section class="w-full max-w-xl mx-auto p-6 rounded-xl chatbot-window mb-8">
-            <h2 class="text-xl font-semibold text-gray-700 mb-4 text-center">Ask Me Anything!</h2>
-            <div id="chatbot-interface" class="rounded-lg p-3">
+        <section class="w-full max-w-2xl mx-auto p-6 rounded-lg chatbot-window mb-12">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4 text-center">Ask Me Anything</h2>
+            <div id="chatbot-interface" class="rounded-md p-3">
                 <div id="chat-history" class="scroll-area h-48 md:h-64 overflow-y-auto p-3 rounded-md mb-4 chatbot-history text-sm">
                     <p class="text-gray-500 italic mb-2">Chatbot: Hello! How can I help you today?</p>
                 </div>
                 <div class="flex">
                     <input type="text" id="user-input" placeholder="Type your question here..."
-                           class="flex-grow p-3 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-700 bg-white">
+                           class="flex-grow p-3 border border-gray-300 rounded-l-md focus:outline-none focus:ring-1 focus:ring-gray-400 text-gray-700 bg-white">
                     <button id="send-button"
                             class="bg-gray-700 text-white px-6 py-3 rounded-r-md font-semibold hover:bg-gray-800 transition-colors duration-300">
                         Send
@@ -174,13 +153,19 @@
             const buttons = document.querySelectorAll('.futuristic-button');
 
             // IMPORTANT: Replace this with the actual URL of your deployed serverless function!
-            //const CHATBOT_API_URL = 'YOUR_SERVERLESS_FUNCTION_ENDPOINT_HERE'; // <<< REPLACE THIS WITH YOUR ACTUAL DEPLOYED URL
             const CHATBOT_API_URL = 'https://helena-chatbot-api.vercel.app/api/chatbot'; // <<< REPLACE THIS WITH YOUR ACTUAL DEPLOYED URL
 
             // Function to position buttons in a circle
             function positionButtons() {
+                // Ensure container and buttons are rendered before calculating dimensions
+                if (!buttonContainer || buttons.length === 0) return;
+
                 const containerWidth = buttonContainer.offsetWidth;
-                const radius = (containerWidth / 2) - (buttons[0].offsetWidth / 2) - 10; // Radius from center to button center, minus button half-width and some padding
+                // Calculate radius from center of container to center of button
+                // Subtract half of button width and a small padding to ensure buttons are on the perimeter, not overlapping
+                const buttonWidth = buttons[0].offsetWidth;
+                const radius = (containerWidth / 2) - (buttonWidth / 2) - 10; // 10px padding from edge
+
                 const centerX = containerWidth / 2;
                 const centerY = containerWidth / 2;
 
@@ -188,7 +173,8 @@
                     const angle = parseFloat(button.dataset.angle); // Get angle from data-angle attribute
                     const angleRad = (angle - 90) * (Math.PI / 180); // Convert to radians, adjust for 0deg at top
 
-                    const x = centerX + radius * Math.cos(angleRad) - (button.offsetWidth / 2);
+                    // Calculate position for the center of the button
+                    const x = centerX + radius * Math.cos(angleRad) - (buttonWidth / 2);
                     const y = centerY + radius * Math.sin(angleRad) - (button.offsetHeight / 2);
 
                     button.style.left = `${x}px`;
