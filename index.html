@@ -12,7 +12,7 @@
     <style>
         body {
             font-family: 'Lato', sans-serif; /* Body font */
-            background-color: #FDFDFD; /* Very light, almost white background */
+            background-color: #FDFDFD; /* Very light, almost white white background */
             color: #222222; /* Very dark grey for main text */
             overflow-x: hidden; /* Prevent horizontal scroll */
             font-size: 0.95rem; /* Slightly smaller base font size */
@@ -100,21 +100,27 @@
             color: #1A1A1A; /* Even darker on hover */
         }
 
-        /* Button Container for Circular Layout */
+        /* Button Circle Container for Rotation */
         .button-circle-container {
             position: relative;
-            width: 300px; /* Slightly smaller base size for the circle */
+            width: 300px; /* Base size for the circle */
             height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 9999px; /* Makes the container circular */
             background-color: rgba(220, 220, 220, 0.4); /* Light, semi-transparent grey */
-            transition: all 0.4s ease-in-out;
-            transform: scale(1);
+            /* Default fast transitions for hover effects (transform for scale) */
+            transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+            transform-origin: center center; /* Ensure rotation is around its center */
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             margin-top: 3rem; /* Space below chatbot */
             flex-shrink: 0; /* Prevent shrinking on smaller screens */
+        }
+
+        /* Class for slow rotation */
+        .button-circle-container.rotating {
+            transition: transform 0.8s ease-in-out; /* Slower transition for rotation (0.8s) */
         }
 
         .button-circle-container:hover {
@@ -128,7 +134,7 @@
             background-color: #D1D5DB; /* Light grey for buttons */
             color: #333333; /* Dark grey text */
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
+            transition: all 0.3s ease; /* Only for hover effects, not rotation */
             border-radius: 9999px; /* Make buttons circular */
             display: flex;
             align-items: center;
@@ -146,6 +152,32 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             transform: scale(1.05); /* Subtle growth on hover */
         }
+
+        /* Inner Circle Button */
+        .inner-circle-button {
+            position: absolute;
+            width: 40px; /* Half of previous size */
+            height: 40px; /* Half of previous size */
+            background-color: #AAAAAA; /* Default medium grey */
+            border-radius: 9999px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            z-index: 5; /* Ensure it's above the main circle container but below buttons */
+        }
+        .inner-circle-button:hover {
+            background-color: #888888; /* Darker grey on hover */
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .inner-circle-button:active {
+            transform: scale(0.98);
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        }
+
 
         /* Chatbot Specific Styles */
         .chatbot-window {
@@ -177,38 +209,12 @@
                 height: 80px;
                 font-size: 0.75rem;
             }
+            .inner-circle-button {
+                width: 35px; /* Smaller inner circle on mobile */
+                height: 35px;
+            }
         }
 
-        /* Image embedding styles */
-        .image-section {
-            padding: 4rem 2rem; /* Ample padding */
-            background-color: #F8F8F8; /* Light grey background for image sections */
-            border-radius: 0.5rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 4rem;
-        }
-        .image-container {
-            width: 100%;
-            max-width: 900px; /* Max width for images */
-            margin: 0 auto; /* Center images */
-            overflow: hidden;
-            border-radius: 0.375rem; /* subtle rounded corners */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .image-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover; /* Ensure image covers container */
-        }
-        .image-caption {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            color: #555555;
-            margin-top: 1.5rem;
-            text-align: center;
-            line-height: 1.5;
-        }
         /* Specific style for the intro paragraph to make it smaller */
         .intro-text {
             font-size: 0.9rem; /* Approximately half of the previous text-lg (1.125rem) */
@@ -225,7 +231,7 @@
                  onerror="this.onerror=null;this.src='https://placehold.co/32x32/E0E0E0/6B7280?text=Saturn';"
                  style="filter: grayscale(100%) brightness(50%);">
         </a>
-        <div class="burger-icon md:hidden" id="burgerIcon">
+        <div class="burger-icon" id="burgerIcon">
             <div></div>
             <div></div>
             <div></div>
@@ -272,38 +278,17 @@
         </section>
 
         <!-- Navigation Buttons Arranged in a Circle -->
-        <section class="button-circle-container">
+        <section class="button-circle-container" data-rotation="0">
             <!-- Buttons are positioned dynamically with JavaScript for equal spacing -->
             <a href="skills.html" class="futuristic-button" data-angle="0">Skills & Expertise</a>
             <a href="values.html" class="futuristic-button" data-angle="72">Core Values</a>
             <a href="career.html" class="futuristic-button" data-angle="144">Career Journey</a>
             <a href="interests.html" class="futuristic-button" data-angle="216">Beyond Work</a>
             <a href="portfolio.html" class="futuristic-button" data-angle="288">Portfolio & Insights</a>
-        </section>
 
-        <!-- Section for Image Examples -->
-        <section class="image-section w-full max-w-4xl mx-auto mt-24">
-            <h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">Visual Insights & Projects</h2>
-
-            <div class="image-container mb-12">
-                <img src="https://placehold.co/1200x800/E0E0E0/555555?text=Architectural+Concept+1" alt="Architectural Concept 1">
-                <p class="image-caption">
-                    "Interplay of Light and Shadow" - A study in minimalist design and spatial dynamics.
-                </p>
-            </div>
-
-            <div class="image-container mb-12">
-                <img src="https://placehold.co/1200x600/D1D1D1/444444?text=Abstract+Geometry+2" alt="Abstract Geometry 2">
-                <p class="image-caption">
-                    "Algorithmic Forms" - Exploring complex geometries generated through computational processes.
-                </p>
-            </div>
-
-            <div class="image-container">
-                <img src="https://placehold.co/1000x1000/C0C0C0/333333?text=Urban+Landscape+3" alt="Urban Landscape 3">
-                <p class="image-caption">
-                    "Urban Echoes" - Capturing the serene yet intricate patterns of cityscapes.
-                </p>
+            <!-- Smaller Inner Circle Button -->
+            <div id="inner-circle-button" class="inner-circle-button">
+                <!-- No text inside -->
             </div>
         </section>
 
@@ -331,6 +316,8 @@
             const buttons = document.querySelectorAll('.futuristic-button');
             const burgerIcon = document.getElementById('burgerIcon');
             const mobileNav = document.getElementById('mobileNav');
+            const innerCircleButton = document.getElementById('inner-circle-button');
+
 
             // IMPORTANT: Replace this with the actual URL of your deployed serverless function!
             const CHATBOT_API_URL = 'https://helena-chatbot-api.vercel.app/api/chatbot'; // <<< REPLACE THIS WITH YOUR ACTUAL DEPLOYED URL
@@ -359,6 +346,7 @@
 
                     button.style.left = `${x}px`;
                     button.style.top = `${y}px`;
+                    // No individual button rotation transform here, as rotation is handled by parent container
                 });
             }
 
@@ -378,6 +366,32 @@
                     mobileNav.classList.remove('open');
                     burgerIcon.classList.remove('open');
                 });
+            });
+
+            // Inner circle button click to rotate outer buttons
+            innerCircleButton.addEventListener('click', () => {
+                let currentContainerRotation = parseFloat(buttonContainer.dataset.rotation || 0);
+                const numberOfButtons = buttons.length;
+                const randomOffsetIndex = Math.floor(Math.random() * numberOfButtons);
+                const randomOffsetAngle = randomOffsetIndex * (360 / numberOfButtons);
+
+                // Calculate the new total rotation for the container
+                currentContainerRotation += (360 + randomOffsetAngle);
+
+                // Add the rotating class to enable the slow transition
+                buttonContainer.classList.add('rotating');
+                buttonContainer.style.transform = `rotate(${currentContainerRotation}deg)`;
+                buttonContainer.dataset.rotation = currentContainerRotation; // Store the new rotation
+
+                // Apply counter-rotation to each button to keep text horizontal
+                buttons.forEach(button => {
+                    button.style.transform = `rotate(-${currentContainerRotation}deg)`;
+                });
+
+                // Remove the rotating class after the animation completes
+                setTimeout(() => {
+                    buttonContainer.classList.remove('rotating');
+                }, 800); // Match the transition duration (0.8 seconds)
             });
 
 
