@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helena Andrés Terre - Core Values</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display (for headings), Lato (for body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif; /* Body font */
+            background-color: #FDFDFD; /* Very light, almost white background */
+            color: #222222; /* Very dark grey for main text */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            font-size: 0.95rem; /* Slightly smaller base font size */
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif; /* Headings font */
+        }
+
+        /* Header specific styles (copied from index.html for consistency) */
+        .header-bg {
+            background-color: #F8F8F8; /* Lighter pastel grey, matching chatbot background */
+        }
+        .header-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem; /* Size of the Saturn icon */
+            height: 2.5rem;
+        }
+        .header-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensure the image fits within the defined logo area */
+            filter: grayscale(100%) brightness(50%); /* Make it grey and slightly darker if needed */
+        }
+        .burger-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 2rem;
+            height: 1.5rem;
+            cursor: pointer;
+            z-index: 20; /* Above mobile menu */
+        }
+        .burger-icon div {
+            width: 100%;
+            height: 2px;
+            background-color: #333333; /* Dark grey for burger lines */
+            transition: all 0.3s ease-in-out;
+        }
+        .burger-icon.open div:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .burger-icon.open div:nth-child(2) {
+            opacity: 0;
+        }
+        .burger-icon.open div:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile Navigation Menu (copied from index.html for consistency) */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%; /* Start off-screen */
+            width: 70%; /* Adjust width as needed */
+            max-width: 300px;
+            height: 100%;
+            background-color: #E5E7EB; /* Light background for menu */
+            padding-top: 5rem; /* Space for header */
+            box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+            transition: right 0.3s ease-in-out;
+            z-index: 15;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .mobile-nav.open {
+            right: 0;
+        }
+        .mobile-nav a {
+            color: #333333; /* Dark grey links */
+            font-family: 'Lato', sans-serif;
+            font-size: 1.2rem;
+            padding: 1rem 0;
+            width: 80%;
+            text-align: center;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            transition: color 0.2s ease-in-out;
+        }
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+        .mobile-nav a:hover {
+            color: #1A1A1A; /* Even darker on hover */
+        }
+
+        /* General section styling */
+        .section-container {
+            background-color: #F8F8F8;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        .section-title {
+            font-size: 2.25rem; /* text-4xl */
+            font-weight: 700; /* font-bold */
+            color: #333333; /* Darker grey */
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Value Section Specific Styles */
+        .value-section-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .value-item-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4rem;
+            position: relative;
+            padding-top: 1.5rem; /* Vertical padding for the row background */
+            padding-bottom: 1.5rem;
+            background-color: #F8F8F8;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow: hidden; /* Crucial to contain the image within the row's rounded corners */
+        }
+
+        .value-image-container {
+            position: absolute;
+            width: 200px; /* Increased size */
+            height: 200px; /* Increased size */
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+            border: 2px solid #D1D5DB;
+        }
+
+        .value-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .value-content-box {
+            flex-grow: 1;
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            padding: 2rem; /* Base padding */
+            position: relative;
+            z-index: 5;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border: 1px solid #E0E0E0;
+        }
+
+        .value-content-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Specific positioning for left/right images */
+        .value-item-row.left-image .value-image-container {
+            left: 0; /* Image starts at the very left edge of the row */
+        }
+        .value-item-row.left-image .value-content-box {
+            margin-left: 150px; /* Shift content box to the right (200px img - 50px overlap) */
+            padding-left: calc(2rem + 50px); /* Add 50px to original 2rem padding for text safety */
+            text-align: left;
+        }
+
+        .value-item-row.right-image {
+            flex-direction: row-reverse; /* Swap order for image on right */
+        }
+        .value-item-row.right-image .value-image-container {
+            right: 0; /* Image starts at the very right edge of the row */
+        }
+        .value-item-row.right-image .value-content-box {
+            margin-right: 150px; /* Shift content box to the left */
+            padding-right: calc(2rem + 50px); /* Add 50px to original 2rem padding for text safety */
+            text-align: right;
+        }
+
+        /* Highlighted Title */
+        .value-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.25rem; /* text-4xl - increased size */
+            font-weight: 800; /* font-extrabold - increased boldness */
+            color: #333333;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .value-item-row {
+                flex-direction: column; /* Stack image and content vertically on mobile */
+                margin-bottom: 3rem;
+                padding: 1rem; /* Add back general padding for the row */
+                align-items: center;
+            }
+            .value-image-container {
+                position: relative; /* Reset to relative for stacking */
+                top: auto;
+                transform: none;
+                margin-bottom: 1rem;
+                width: 150px; /* Smaller image on mobile */
+                height: 150px;
+                left: auto;
+                right: auto;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            }
+            .value-content-box {
+                width: 100%;
+                margin-left: 0; /* Reset margins */
+                margin-right: 0;
+                padding-left: 1.5rem; /* Reset padding for mobile */
+                padding-right: 1.5rem;
+                text-align: center;
+            }
+            .value-item-row.left-image .value-content-box,
+            .value-item-row.right-image .value-content-box {
+                padding-left: 1.5rem; /* Ensure standard padding on mobile */
+                padding-right: 1.5rem;
+                text-align: center;
+            }
+            .value-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Footer styling (copied from index.html for consistency) */
+        .footer-bg {
+            background-color: #1A1A1A;
+        }
+        .footer-text {
+            color: #FFFFFF;
+        }
+        .footer-link {
+            color: #9CA3AF; /* text-gray-400 */
+            transition: color 0.3s ease-in-out;
+        }
+        .footer-link:hover {
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen items-center p-0">
+    <!-- Header (copied from index.html) -->
+    <header class="header-bg w-full py-2 px-6 flex justify-between items-center shadow-md fixed top-0 z-10">
+        <a href="index.html" class="header-logo">
+            <!-- Saturn Image Icon -->
+            <img src="photos/planet.svg"
+                 alt="Saturn Icon"
+                 onerror="this.onerror=null;this.src='https://placehold.co/32x32/E0E0E0/6B7280?text=Saturn';"
+                 style="filter: grayscale(100%) brightness(50%);">
+        </a>
+        <div class="burger-icon" id="burgerIcon">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Menu (copied from index.html) -->
+    <nav class="mobile-nav" id="mobileNav">
+        <a href="index.html">Home</a>
+        <a href="skills.html">Skills & Expertise</a>
+        <a href="values.html">Core Values</a>
+        <a href="career.html">Career Journey</a>
+        <a href="interests.html">Beyond Work</a>
+        <a href="portfolio.html">Portfolio & Insights</a>
+    </nav>
+
+    <main class="flex flex-col items-center flex-grow w-full max-w-4xl mx-auto pt-16 pb-12 px-4">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-10 leading-tight text-center">
+            My Core Values
+        </h1>
+
+        <section class="section-container w-full">
+            <p class="text-gray-700 leading-relaxed text-center mb-10">
+                My work and life philosophy are guided by a set of core values that emphasize connection, inclusion, and tangible impact. These principles drive my approach to challenges, foster innovation, and shape my contributions to both science and society.
+            </p>
+
+            <div class="value-section-wrapper">
+                <!-- Value 1: Collaborative Synergy (Image Left) -->
+                <div class="value-item-row left-image">
+                    <div class="value-image-container">
+                        <img src="photos\synergy.png" alt="Synergy Icon">
+                    </div>
+                    <div class="value-content-box">
+                        <h3 class="value-title">Collaborative Synergy</h3>
+                        <p class="value-description">
+                            I believe in building meaningful connections and fostering diverse thought to tackle complex challenges. By combining ideas and disciplines, we can achieve synergistic outcomes, leading to better science and a better world. Embracing different viewpoints is key to innovation.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Value 2: Real World Solutions (Image Right) -->
+                <div class="value-item-row right-image">
+                    <div class="value-image-container">
+                        <img src="photos\bulb.png" alt="Solution Icon">
+                    </div>
+                    <div class="value-content-box">
+                        <h3 class="value-title">Real World Solutions</h3>
+                        <p class="value-description">
+                            Ideas are powerful, but their true value lies in their implementation. I am driven to see concepts come to fruition, translating scientific insights and technological innovations into practical applications that deliver real-world benefits and positive change.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Value 3: Inclusive Innovation (Image Left) -->
+                <div class="value-item-row left-image">
+                    <div class="value-image-container">
+                        <img src="photos\globe_v0.png" alt="Inclusion Icon">
+                    </div>
+                    <div class="value-content-box">
+                        <h3 class="value-title">Inclusive Innovation</h3>
+                        <p class="value-description">
+                            Science and technology should be accessible and inclusive for everyone. My aim is to contribute to solutions that break down barriers, ensuring that advancements benefit all segments of society, regardless of background or circumstance.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer (copied from index.html) -->
+    <footer class="bg-[#1A1A1A] text-white p-6 text-center mt-12 w-full">
+        <div class="w-full">
+            <p>&copy; 2025 Helena Andrés Terre. All rights reserved.</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <a href="https://linkedin.com/in/helenaandres" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300">LinkedIn</a>
+                <a href="https://github.com/helenaandres" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300">GitHub</a>
+                <a href="mailto:your-email@example.com" class="text-gray-400 hover:text-white transition-colors duration-300">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const burgerIcon = document.getElementById('burgerIcon');
+            const mobileNav = document.getElementById('mobileNav');
+
+            // Burger menu toggle
+            burgerIcon.addEventListener('click', () => {
+                mobileNav.classList.toggle('open');
+                burgerIcon.classList.toggle('open');
+            });
+
+            // Close mobile nav when a link is clicked
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNav.classList.remove('open');
+                    burgerIcon.classList.remove('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
