@@ -100,6 +100,25 @@
             color: #1A1A1A; /* Even darker on hover */
         }
 
+        /* Close button for mobile menu */
+        .mobile-nav-close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #333333;
+            cursor: pointer;
+            padding: 0.5rem;
+            line-height: 1;
+            transition: color 0.2s ease-in-out;
+        }
+        .mobile-nav-close-button:hover {
+            color: #1A1A1A;
+        }
+
+
         /* Button Circle Container for Rotation */
         .button-circle-container {
             position: relative;
@@ -240,6 +259,7 @@
 
     <!-- Mobile Navigation Menu (Off-canvas) -->
     <nav class="mobile-nav" id="mobileNav">
+        <button class="mobile-nav-close-button" id="mobileNavCloseButton">&times;</button> <!-- Added close button -->
         <a href="index.html">Home</a>
         <a href="skills.html">Skills & Expertise</a>
         <a href="values.html">Core Values</a>
@@ -275,6 +295,162 @@
                 </div>
                 <p id="loading-indicator" class="text-center text-gray-600 mt-2 hidden text-sm">Thinking...</p>
             </div>
+
+            <!-- JavaScript for chatbot interaction -->
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const userInput = document.getElementById('user-input');
+                    const sendButton = document.getElementById('send-button');
+                    const chatHistory = document.getElementById('chat-history');
+                    const loadingIndicator = document.getElementById('loading-indicator');
+                    const buttonContainer = document.querySelector('.button-circle-container');
+                    const buttons = document.querySelectorAll('.futuristic-button');
+                    const burgerIcon = document.getElementById('burgerIcon');
+                    const mobileNav = document.getElementById('mobileNav');
+                    const innerCircleButton = document.getElementById('inner-circle-button');
+                    const mobileNavCloseButton = document.getElementById('mobileNavCloseButton'); // Get the new close button
+
+
+                    // IMPORTANT: Replace this with the actual URL of your deployed serverless function!
+                    const CHATBOT_API_URL = 'https://helena-chatbot-api.vercel.app/api/chatbot'; // This URL should be your deployed serverless function endpoint
+
+                    // Function to position buttons in a circle
+                    function positionButtons() {
+                        // Ensure container and buttons are rendered before calculating dimensions
+                        if (!buttonContainer || buttons.length === 0) return;
+
+                        const containerWidth = buttonContainer.offsetWidth;
+                        // Calculate radius from center of container to center of button
+                        // Subtract half of button width and a small padding to ensure buttons are on the perimeter, not overlapping
+                        const buttonWidth = buttons[0].offsetWidth;
+                        const radius = (containerWidth / 2) - (buttonWidth / 2) - 10; // 10px padding from edge
+
+                        const centerX = containerWidth / 2;
+                        const centerY = containerWidth / 2;
+
+                        buttons.forEach(button => {
+                            const angle = parseFloat(button.dataset.angle); // Get angle from data-angle attribute
+                            const angleRad = (angle - 90) * (Math.PI / 180); // Convert to radians, adjust for 0deg at top
+
+                            // Calculate position for the center of the button
+                            const x = centerX + radius * Math.cos(angleRad) - (buttonWidth / 2);
+                            const y = centerY + radius * Math.sin(angleRad) - (button.offsetHeight / 2);
+
+                            button.style.left = `${x}px`;
+                            button.style.top = `${y}px`;
+                            // No individual button rotation transform here, as rotation is handled by parent container
+                        });
+                    }
+
+                    // Initial positioning and re-position on resize
+                    positionButtons();
+                    window.addEventListener('resize', positionButtons);
+
+                    // Burger menu toggle
+                    burgerIcon.addEventListener('click', () => {
+                        mobileNav.classList.toggle('open');
+                        burgerIcon.classList.toggle('open');
+                    });
+
+                    // Close mobile nav when a link is clicked
+                    mobileNav.querySelectorAll('a').forEach(link => {
+                        link.addEventListener('click', () => {
+                            mobileNav.classList.remove('open');
+                            burgerIcon.classList.remove('open');
+                        });
+                    });
+
+                    // Close mobile nav when the close button is clicked
+                    mobileNavCloseButton.addEventListener('click', () => {
+                        mobileNav.classList.remove('open');
+                        burgerIcon.classList.remove('open');
+                    });
+
+                    // Inner circle button click to rotate outer buttons
+                    innerCircleButton.addEventListener('click', () => {
+                        let currentContainerRotation = parseFloat(buttonContainer.dataset.rotation || 0);
+                        const numberOfButtons = buttons.length;
+                        const randomOffsetIndex = Math.floor(Math.random() * numberOfButtons);
+                        const randomOffsetAngle = randomOffsetIndex * (360 / numberOfButtons);
+
+                        // Calculate the new total rotation for the container
+                        currentContainerRotation += (360 + randomOffsetAngle);
+
+                        // Add the rotating class to enable the slow transition
+                        buttonContainer.classList.add('rotating');
+                        buttonContainer.style.transform = `rotate(${currentContainerRotation}deg)`;
+                        buttonContainer.dataset.rotation = currentContainerRotation; // Store the new rotation
+
+                        // Apply counter-rotation to each button to keep text horizontal
+                        buttons.forEach(button => {
+                            button.style.transform = `rotate(-${currentContainerRotation}deg)`;
+                        });
+
+                        // Remove the rotating class after the animation completes
+                        setTimeout(() => {
+                            buttonContainer.classList.remove('rotating');
+                        }, 800); // Match the transition duration (0.8 seconds)
+                    });
+
+
+                    // Chatbot functionality
+                    sendButton.addEventListener('click', sendMessage);
+                    userInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            sendMessage();
+                        }
+                    });
+
+                    async function sendMessage() {
+                        const message = userInput.value.trim();
+                        if (message === '') return;
+
+                        const userMessageDiv = document.createElement('div');
+                        userMessageDiv.className = 'text-right mb-2';
+                        userMessageDiv.innerHTML = `<span class="user-message p-2 rounded-lg inline-block max-w-xs md:max-w-md">${message}</span>`;
+                        chatHistory.appendChild(userMessageDiv);
+
+                        userInput.value = '';
+                        chatHistory.scrollTop = chatHistory.scrollHeight;
+
+                        loadingIndicator.classList.remove('hidden');
+
+                        try {
+                            const response = await fetch(CHATBOT_API_URL, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ message: message })
+                            });
+
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+
+                            const data = await response.json();
+                            const botResponse = data.reply;
+
+                            const botResponseDiv = document.createElement('div');
+                            botResponseDiv.className = 'text-left mb-2';
+                            botResponseDiv.innerHTML = `<span class="bot-message p-2 rounded-lg inline-block max-w-xs md:max-w-md">${botResponse}</span>`;
+                            chatHistory.appendChild(botResponseDiv);
+
+                        } catch (error) {
+                            console.error('Error fetching chatbot response:', error);
+                            const errorMessageDiv = document.createElement('div');
+                            errorMessageDiv.className = 'text-left mb-2';
+                            errorMessageDiv.innerHTML = `<span class="bg-red-100 text-red-800 p-2 rounded-lg inline-block max-w-xs md:max-w-md">
+                                Sorry, there was an error connecting to the chatbot. Please try again later.
+                            </span>`;
+                            chatHistory.appendChild(errorMessageDiv);
+                        } finally {
+                            loadingIndicator.classList.add('hidden');
+                            chatHistory.scrollTop = chatHistory.scrollHeight;
+                        }
+                    }
+                });
+            </script>
         </section>
 
         <!-- Navigation Buttons Arranged in a Circle -->
@@ -305,153 +481,5 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const userInput = document.getElementById('user-input');
-            const sendButton = document.getElementById('send-button');
-            const chatHistory = document.getElementById('chat-history');
-            const loadingIndicator = document.getElementById('loading-indicator');
-            const buttonContainer = document.querySelector('.button-circle-container');
-            const buttons = document.querySelectorAll('.futuristic-button');
-            const burgerIcon = document.getElementById('burgerIcon');
-            const mobileNav = document.getElementById('mobileNav');
-            const innerCircleButton = document.getElementById('inner-circle-button');
-
-
-            // IMPORTANT: Replace this with the actual URL of your deployed serverless function!
-            const CHATBOT_API_URL = 'https://helena-chatbot-api.vercel.app/api/chatbot'; // <<< REPLACE THIS WITH YOUR ACTUAL DEPLOYED URL
-
-            // Function to position buttons in a circle
-            function positionButtons() {
-                // Ensure container and buttons are rendered before calculating dimensions
-                if (!buttonContainer || buttons.length === 0) return;
-
-                const containerWidth = buttonContainer.offsetWidth;
-                // Calculate radius from center of container to center of button
-                // Subtract half of button width and a small padding to ensure buttons are on the perimeter, not overlapping
-                const buttonWidth = buttons[0].offsetWidth;
-                const radius = (containerWidth / 2) - (buttonWidth / 2) - 10; // 10px padding from edge
-
-                const centerX = containerWidth / 2;
-                const centerY = containerWidth / 2;
-
-                buttons.forEach(button => {
-                    const angle = parseFloat(button.dataset.angle); // Get angle from data-angle attribute
-                    const angleRad = (angle - 90) * (Math.PI / 180); // Convert to radians, adjust for 0deg at top
-
-                    // Calculate position for the center of the button
-                    const x = centerX + radius * Math.cos(angleRad) - (buttonWidth / 2);
-                    const y = centerY + radius * Math.sin(angleRad) - (button.offsetHeight / 2);
-
-                    button.style.left = `${x}px`;
-                    button.style.top = `${y}px`;
-                    // No individual button rotation transform here, as rotation is handled by parent container
-                });
-            }
-
-            // Initial positioning and re-position on resize
-            positionButtons();
-            window.addEventListener('resize', positionButtons);
-
-            // Burger menu toggle
-            burgerIcon.addEventListener('click', () => {
-                mobileNav.classList.toggle('open');
-                burgerIcon.classList.toggle('open');
-            });
-
-            // Close mobile nav when a link is clicked
-            mobileNav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileNav.classList.remove('open');
-                    burgerIcon.classList.remove('open');
-                });
-            });
-
-            // Inner circle button click to rotate outer buttons
-            innerCircleButton.addEventListener('click', () => {
-                let currentContainerRotation = parseFloat(buttonContainer.dataset.rotation || 0);
-                const numberOfButtons = buttons.length;
-                const randomOffsetIndex = Math.floor(Math.random() * numberOfButtons);
-                const randomOffsetAngle = randomOffsetIndex * (360 / numberOfButtons);
-
-                // Calculate the new total rotation for the container
-                currentContainerRotation += (360 + randomOffsetAngle);
-
-                // Add the rotating class to enable the slow transition
-                buttonContainer.classList.add('rotating');
-                buttonContainer.style.transform = `rotate(${currentContainerRotation}deg)`;
-                buttonContainer.dataset.rotation = currentContainerRotation; // Store the new rotation
-
-                // Apply counter-rotation to each button to keep text horizontal
-                buttons.forEach(button => {
-                    button.style.transform = `rotate(-${currentContainerRotation}deg)`;
-                });
-
-                // Remove the rotating class after the animation completes
-                setTimeout(() => {
-                    buttonContainer.classList.remove('rotating');
-                }, 800); // Match the transition duration (0.8 seconds)
-            });
-
-
-            // Chatbot functionality
-            sendButton.addEventListener('click', sendMessage);
-            userInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
-            });
-
-            async function sendMessage() {
-                const message = userInput.value.trim();
-                if (message === '') return;
-
-                const userMessageDiv = document.createElement('div');
-                userMessageDiv.className = 'text-right mb-2';
-                userMessageDiv.innerHTML = `<span class="user-message p-2 rounded-lg inline-block max-w-xs md:max-w-md">${message}</span>`;
-                chatHistory.appendChild(userMessageDiv);
-
-                userInput.value = '';
-                chatHistory.scrollTop = chatHistory.scrollHeight;
-
-                loadingIndicator.classList.remove('hidden');
-
-                try {
-                    const response = await fetch(CHATBOT_API_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ message: message })
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const data = await response.json();
-                    const botResponse = data.reply;
-
-                    const botResponseDiv = document.createElement('div');
-                    botResponseDiv.className = 'text-left mb-2';
-                    botResponseDiv.innerHTML = `<span class="bot-message p-2 rounded-lg inline-block max-w-xs md:max-w-md">${botResponse}</span>`;
-                    chatHistory.appendChild(botResponseDiv);
-
-                } catch (error) {
-                    console.error('Error fetching chatbot response:', error);
-                    const errorMessageDiv = document.createElement('div');
-                    errorMessageDiv.className = 'text-left mb-2';
-                    errorMessageDiv.innerHTML = `<span class="bg-red-100 text-red-800 p-2 rounded-lg inline-block max-w-xs md:max-w-md">
-                        Sorry, there was an error connecting to the chatbot. Please try again later.
-                    </span>`;
-                    chatHistory.appendChild(errorMessageDiv);
-                } finally {
-                    loadingIndicator.classList.add('hidden');
-                    chatHistory.scrollTop = chatHistory.scrollHeight;
-                }
-            }
-        });
-    </script>
 </body>
 </html>
