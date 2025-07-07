@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -153,6 +153,7 @@
             left: 0;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
+            cursor: pointer; /* Indicate clickable */
         }
         .carousel-image.active {
             opacity: 1;
@@ -232,6 +233,83 @@
             font-size: 0.9rem; /* Slightly smaller font for description */
         }
 
+        /* Lightbox Modal Styles */
+        .lightbox-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Dark overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* On top of everything */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .lightbox-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Ensure entire image is visible */
+            border-radius: 0.75rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 1rem 1.2rem;
+            cursor: pointer;
+            font-size: 2rem;
+            border-radius: 50%; /* Circular buttons */
+            transition: background-color 0.3s ease;
+        }
+        .lightbox-button:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+        .lightbox-button.prev {
+            left: -60px; /* Position outside the image */
+        }
+        .lightbox-button.next {
+            right: -60px; /* Position outside the image */
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+        .lightbox-close:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .interest-item {
@@ -253,6 +331,30 @@
             }
             .interest-description {
                 font-size: 0.85rem; /* Adjust description font size for mobile */
+            }
+
+            /* Lightbox Mobile Adjustments */
+            .lightbox-content {
+                max-width: 95%;
+                max-height: 95%;
+            }
+            .lightbox-button {
+                padding: 0.7rem 0.9rem;
+                font-size: 1.5rem;
+                left: 10px;
+                right: 10px;
+            }
+            .lightbox-button.prev {
+                left: 10px; /* Keep within bounds */
+            }
+            .lightbox-button.next {
+                right: 10px; /* Keep within bounds */
+            }
+            .lightbox-close {
+                top: 10px;
+                right: 10px;
+                padding: 0.3rem 0.7rem;
+                font-size: 1.2rem;
             }
         }
 
@@ -312,13 +414,13 @@
             <!-- Interest 1: Sports (Ultimate Frisbee, Cycling, Running, Hiking) -->
             <div class="interest-item mb-8" id="sports-carousel">
                 <div class="carousel-container">
-                    <img src="photos\sports\frisbee_jump - Copy - Copy.png" alt="Sports Activities 1" class="carousel-image active">
-                    <img src="photos\sports\18664210_1976610562569902_2400701330471774815_n - Copy - Copy.jpg" alt="Sports Activities 2" class="carousel-image">
-                    <img src="photos\sports\acccb040-dc1a-4fd5-90df-fff097774ea5.JPG" alt="Sports Activities 3" class="carousel-image">
-                    <img src="photos\sports\IMG_4877.jpg" alt="Sports Activities 4" class="carousel-image">
-                    <img src="photos\sports\IMG_5112.jpg" alt="Sports Activities 5" class="carousel-image">
-                    <img src="photos\sports\IMG_8844.JPG" alt="Sports Activities 6" class="carousel-image">
-                    <img src="photos\sports\21015823_10154733961042882_8273615136456722791_o.jpg" alt="Sports Activities 7" class="carousel-image">
+                    <img src="photos/sports/frisbee_jump - Copy - Copy.png" alt="Sports Activities 1" class="carousel-image active" data-index="0">
+                    <img src="photos/sports/18664210_1976610562569902_2400701330471774815_n - Copy - Copy.jpg" alt="Sports Activities 2" class="carousel-image" data-index="1">
+                    <img src="photos/sports/acccb040-dc1a-4fd5-90df-fff097774ea5.JPG" alt="Sports Activities 3" class="carousel-image" data-index="2">
+                    <img src="photos/sports/IMG_4877.jpg" alt="Sports Activities 4" class="carousel-image" data-index="3">
+                    <img src="photos/sports/IMG_5112.jpg" alt="Sports Activities 5" class="carousel-image" data-index="4">
+                    <img src="photos/sports/IMG_8844.JPG" alt="Sports Activities 6" class="carousel-image" data-index="5">
+                    <img src="photos/sports/21015823_10154733961042882_8273615136456722791_o.jpg" alt="Sports Activities 7" class="carousel-image" data-index="6">
                     <button class="carousel-button prev">&#10094;</button>
                     <button class="carousel-button next">&#10095;</button>
                     <div class="carousel-dots"></div>
@@ -334,9 +436,9 @@
             <!-- Interest 2: Women in STEM -->
             <div class="interest-item mb-8" id="stem-carousel">
                 <div class="carousel-container">
-                    <img src="photos\women_in_stem\30703751_767388150119011_2089731653722177536_o.jpg" alt="Women in STEM 1" class="carousel-image active">
-                    <img src="photos\women_in_stem\ear01781.jpg" alt="Women in STEM 2" class="carousel-image">
-                    <img src="photos\women_in_stem\IMG_7342.png" alt="Women in STEM 3" class="carousel-image">
+                    <img src="photos/women_in_stem/30703751_767388150119011_2089731653722177536_o.jpg" alt="Women in STEM 1" class="carousel-image active" data-index="0">
+                    <img src="photos/women_in_stem/ear01781.jpg" alt="Women in STEM 2" class="carousel-image" data-index="1">
+                    <img src="photos/women_in_stem/IMG_7342.png" alt="Women in STEM 3" class="carousel-image" data-index="2">
                     <button class="carousel-button prev">&#10094;</button>
                     <button class="carousel-button next">&#10095;</button>
                     <div class="carousel-dots"></div>
@@ -352,8 +454,8 @@
             <!-- Interest 3: LGBTQA+ Rights -->
             <div class="interest-item mb-8" id="lgbtqa-carousel">
                 <div class="carousel-container">
-                    <img src="photos\lgbtqa+\IMG_6884.jpg" alt="LGBTQA+ Rights 1" class="carousel-image active">
-                    <img src="photos\lgbtqa+\IMG_8052.jpg" alt="LGBTQA+ Rights 2" class="carousel-image">
+                    <img src="photos/lgbtqa+/IMG_6884.jpg" alt="LGBTQA+ Rights 1" class="carousel-image active" data-index="0">
+                    <img src="photos/lgbtqa+/IMG_8052.jpg" alt="LGBTQA+ Rights 2" class="carousel-image" data-index="1">
                     <button class="carousel-button prev">&#10094;</button>
                     <button class="carousel-button next">&#10095;</button>
                     <div class="carousel-dots"></div>
@@ -369,12 +471,12 @@
             <!-- Interest 4: My Dog Rosca -->
             <div class="interest-item mb-8" id="rosca-carousel">
                 <div class="carousel-container">
-                    <img src="photos\rosca\IMG_4681.jpg" alt="My Dog Rosca 1" class="carousel-image active">
-                    <img src="photos\rosca\IMG_4546.jpg" alt="My Dog Rosca 2" class="carousel-image">
-                    <img src="photos\rosca\IMG_4295.jpg" alt="My Dog Rosca 3" class="carousel-image">
-                    <img src="photos\rosca\IMG_3814.jpg" alt="My Dog Rosca 4" class="carousel-image">
-                    <img src="photos\rosca\cb5b7496-5944-4985-9ab8-83764194f3e8.jpg" alt="My Dog Rosca 5" class="carousel-image">
-                    <img src="photos\rosca\IMG_2625.jpg" alt="My Dog Rosca 6" class="carousel-image">
+                    <img src="photos/rosca/IMG_4681.jpg" alt="My Dog Rosca 1" class="carousel-image active" data-index="0">
+                    <img src="photos/rosca/IMG_4546.jpg" alt="My Dog Rosca 2" class="carousel-image" data-index="1">
+                    <img src="photos/rosca/IMG_4295.jpg" alt="My Dog Rosca 3" class="carousel-image" data-index="2">
+                    <img src="photos/rosca/IMG_3814.jpg" alt="My Dog Rosca 4" class="carousel-image" data-index="3">
+                    <img src="photos/rosca/cb5b7496-5944-4985-9ab8-83764194f3e8.jpg" alt="My Dog Rosca 5" class="carousel-image" data-index="4">
+                    <img src="photos/rosca/IMG_2625.jpg" alt="My Dog Rosca 6" class="carousel-image" data-index="5">
                     <button class="carousel-button prev">&#10094;</button>
                     <button class="carousel-button next">&#10095;</button>
                     <div class="carousel-dots"></div>
@@ -390,9 +492,9 @@
             <!-- Interest 5: Catalunya -->
             <div class="interest-item mb-8" id="catalunya-carousel">
                 <div class="carousel-container">
-                    <img src="photos\catalunya\IMG_1949.jpg" alt="Catalunya 1" class="carousel-image active">
-                    <img src="photos\catalunya\IMG_3055.jpg" alt="Catalunya 2" class="carousel-image">
-                    <img src="photos\catalunya\IMG_0167.jpg" alt="Catalunya 3" class="carousel-image">
+                    <img src="photos/catalunya/IMG_1949.jpg" alt="Catalunya 1" class="carousel-image active" data-index="0">
+                    <img src="photos/catalunya/IMG_3055.jpg" alt="Catalunya 2" class="carousel-image" data-index="1">
+                    <img src="photos/catalunya/IMG_0167.jpg" alt="Catalunya 3" class="carousel-image" data-index="2">
                     <button class="carousel-button prev">&#10094;</button>
                     <button class="carousel-button next">&#10095;</button>
                     <div class="carousel-dots"></div>
@@ -421,6 +523,17 @@
         </div>
     </footer>
 
+    <!-- Lightbox Modal Structure -->
+    <div id="image-modal" class="lightbox-modal">
+        <span class="lightbox-close">&times;</span>
+        <div class="lightbox-content">
+            <img id="modal-image" class="lightbox-image" src="" alt="Enlarged Image">
+            <button id="modal-prev" class="lightbox-button prev">&#10094;</button>
+            <button id="modal-next" class="lightbox-button next">&#10095;</button>
+            <div id="modal-dots" class="carousel-dots"></div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const burgerIcon = document.getElementById('burgerIcon');
@@ -440,11 +553,75 @@
                 });
             });
 
-            // Carousel functionality
+            // Lightbox elements
+            const imageModal = document.getElementById('image-modal');
+            const modalImage = document.getElementById('modal-image');
+            const modalPrevButton = document.getElementById('modal-prev');
+            const modalNextButton = document.getElementById('modal-next');
+            const modalCloseButton = document.querySelector('.lightbox-close');
+            const modalDotsContainer = document.getElementById('modal-dots');
+
+            let currentModalImages = [];
+            let currentModalIndex = 0;
+
+            function openModal(images, startIndex) {
+                currentModalImages = images;
+                currentModalIndex = startIndex;
+                
+                // Clear previous dots
+                modalDotsContainer.innerHTML = '';
+
+                // Create new dots for the modal carousel
+                currentModalImages.forEach((_, index) => {
+                    const dot = document.createElement('span');
+                    dot.classList.add('dot');
+                    if (index === currentModalIndex) {
+                        dot.classList.add('active');
+                    }
+                    dot.addEventListener('click', () => showModalImage(index));
+                    modalDotsContainer.appendChild(dot);
+                });
+
+                showModalImage(currentModalIndex);
+                imageModal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling background
+            }
+
+            function closeModal() {
+                imageModal.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+
+            function showModalImage(index) {
+                if (index < 0) {
+                    index = currentModalImages.length - 1;
+                } else if (index >= currentModalImages.length) {
+                    index = 0;
+                }
+                currentModalIndex = index;
+                modalImage.src = currentModalImages[currentModalIndex];
+                
+                // Update dots in modal
+                modalDotsContainer.querySelectorAll('.dot').forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === currentModalIndex);
+                });
+            }
+
+            modalPrevButton.addEventListener('click', () => showModalImage(currentModalIndex - 1));
+            modalNextButton.addEventListener('click', () => showModalImage(currentModalIndex + 1));
+            modalCloseButton.addEventListener('click', closeModal);
+            imageModal.addEventListener('click', (e) => {
+                // Close modal if clicking on the overlay, but not on the image or buttons
+                if (e.target === imageModal) {
+                    closeModal();
+                }
+            });
+
+            // Carousel functionality (adapted to trigger lightbox)
             class Carousel {
                 constructor(elementId) {
                     this.carouselElement = document.getElementById(elementId);
-                    this.images = this.carouselElement.querySelectorAll('.carousel-image');
+                    this.images = Array.from(this.carouselElement.querySelectorAll('.carousel-image'));
                     this.prevButton = this.carouselElement.querySelector('.carousel-button.prev');
                     this.nextButton = this.carouselElement.querySelector('.carousel-button.next');
                     this.dotsContainer = this.carouselElement.querySelector('.carousel-dots');
@@ -453,18 +630,36 @@
                     this.initDots();
                     this.showImage(this.currentIndex);
 
-                    this.prevButton.addEventListener('click', () => this.showImage(this.currentIndex - 1));
-                    this.nextButton.addEventListener('click', () => this.showImage(this.currentIndex + 1));
+                    this.prevButton.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Prevent modal from opening when clicking carousel buttons
+                        this.showImage(this.currentIndex - 1);
+                    });
+                    this.nextButton.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Prevent modal from opening when clicking carousel buttons
+                        this.showImage(this.currentIndex + 1);
+                    });
+
+                    // Add click listener to each image to open lightbox
+                    this.images.forEach((img, index) => {
+                        img.addEventListener('click', () => {
+                            const imageSrcs = this.images.map(i => i.src);
+                            openModal(imageSrcs, index);
+                        });
+                    });
                 }
 
                 initDots() {
+                    this.dotsContainer.innerHTML = ''; // Clear existing dots
                     this.images.forEach((_, index) => {
                         const dot = document.createElement('span');
                         dot.classList.add('dot');
                         if (index === this.currentIndex) {
                             dot.classList.add('active');
                         }
-                        dot.addEventListener('click', () => this.showImage(index));
+                        dot.addEventListener('click', (e) => {
+                            e.stopPropagation(); // Prevent modal from opening when clicking dots
+                            this.showImage(index);
+                        });
                         this.dotsContainer.appendChild(dot);
                     });
                 }
@@ -501,9 +696,9 @@
             // Initialize carousels for each interest item
             new Carousel('sports-carousel');
             new Carousel('stem-carousel');
-            new Carousel('lgbtqa-carousel'); /* Changed order here */
+            new Carousel('lgbtqa-carousel');
             new Carousel('rosca-carousel');
-            new Carousel('catalunya-carousel'); /* Removed coffee carousel */
+            new Carousel('catalunya-carousel');
         });
     </script>
 </body>
