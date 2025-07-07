@@ -1,0 +1,510 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helena Andrés Terre - Beyond Work</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display (for headings), Lato (for body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif; /* Body font */
+            background-color: #FDFDFD; /* Very light, almost white background */
+            color: #222222; /* Very dark grey for main text */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            font-size: 0.95rem; /* Slightly smaller base font size */
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif; /* Headings font */
+        }
+
+        /* Header specific styles (copied from index.html for consistency) */
+        .header-bg {
+            background-color: #F8F8F8; /* Lighter pastel grey, matching chatbot background */
+        }
+        .header-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem; /* Size of the Saturn icon */
+            height: 2.5rem;
+        }
+        .header-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensure the image fits within the defined logo area */
+            filter: grayscale(100%) brightness(50%); /* Make it grey and slightly darker if needed */
+        }
+        .burger-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 2rem;
+            height: 1.5rem;
+            cursor: pointer;
+            z-index: 20; /* Above mobile menu */
+        }
+        .burger-icon div {
+            width: 100%;
+            height: 2px;
+            background-color: #333333; /* Dark grey for burger lines */
+            transition: all 0.3s ease-in-out;
+        }
+        .burger-icon.open div:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .burger-icon.open div:nth-child(2) {
+            opacity: 0;
+        }
+        .burger-icon.open div:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile Navigation Menu (copied from index.html for consistency) */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%; /* Start off-screen */
+            width: 70%; /* Adjust width as needed */
+            max-width: 300px;
+            height: 100%;
+            background-color: #E5E7EB; /* Light background for menu */
+            padding-top: 5rem; /* Space for header */
+            box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+            transition: right 0.3s ease-in-out;
+            z-index: 15;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .mobile-nav.open {
+            right: 0;
+        }
+        .mobile-nav a {
+            color: #333333; /* Dark grey links */
+            font-family: 'Lato', sans-serif;
+            font-size: 1.2rem;
+            padding: 1rem 0;
+            width: 80%;
+            text-align: center;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            transition: color 0.2s ease-in-out;
+        }
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+        .mobile-nav a:hover {
+            color: #1A1A1A; /* Even darker on hover */
+        }
+
+        /* General section styling */
+        .section-container {
+            background-color: #F8F8F8;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        .section-title {
+            font-size: 2.25rem; /* text-4xl */
+            font-weight: 700; /* font-bold */
+            color: #333333; /* Darker grey */
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Interests Section Specific Styles */
+        .interest-item {
+            display: flex;
+            flex-direction: column; /* Always stack image on top of text */
+            margin-bottom: 4rem;
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow: hidden; /* Ensures rounded corners */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            max-width: 700px; /* Limit width of each item */
+            margin-left: auto;
+            margin-right: auto;
+            position: relative; /* Needed for absolute positioning of carousel controls */
+        }
+        .interest-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 350px; /* Fixed height for images on desktop */
+            overflow: hidden;
+            border-radius: 0.75rem 0.75rem 0 0; /* Rounded top corners */
+        }
+
+        .carousel-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .carousel-image.active {
+            opacity: 1;
+        }
+
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            z-index: 20;
+            border-radius: 0.25rem;
+            transition: background-color 0.3s ease;
+        }
+        .carousel-button:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        .carousel-button.prev {
+            left: 10px;
+        }
+        .carousel-button.next {
+            right: 10px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 20;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .dot.active {
+            background-color: white;
+        }
+
+        .interest-content {
+            position: relative; /* For z-index */
+            z-index: 15; /* Ensure text box is on top of image */
+            margin-top: -80px; /* Pulls the content box up to overlap with the image */
+            width: calc(100% - 2rem); /* Full width minus padding on sides */
+            margin-left: 1rem; /* Center the box by adding left/right margin */
+            margin-right: 1rem;
+            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
+            backdrop-filter: blur(3px); /* Frosted glass effect */
+            border-radius: 0.5rem; /* Slightly smaller border-radius for the inner box */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 1.5rem; /* Padding inside the text box */
+            text-align: left; /* Align text within the box */
+            border: 1px solid #E0E0E0;
+        }
+
+        .interest-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem; /* text-2xl for title within the smaller box */
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 0.5rem;
+        }
+        .interest-description {
+            color: #555555;
+            line-height: 1.5;
+            font-size: 0.9rem; /* Slightly smaller font for description */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .interest-item {
+                margin-bottom: 2.5rem;
+            }
+            .carousel-container {
+                height: 250px; /* Adjust height for mobile */
+            }
+            .interest-content {
+                margin-top: -60px; /* Adjust overlap for mobile */
+                width: calc(100% - 1.5rem); /* Adjust width for mobile padding */
+                margin-left: 0.75rem;
+                margin-right: 0.75rem;
+                padding: 1rem; /* Smaller padding on mobile */
+                text-align: center; /* Center text on mobile for better readability */
+            }
+            .interest-title {
+                font-size: 1.5rem; /* Adjust title size for mobile */
+            }
+            .interest-description {
+                font-size: 0.85rem; /* Adjust description font size for mobile */
+            }
+        }
+
+        /* Footer styling (copied from index.html for consistency) */
+        .footer-bg {
+            background-color: #1A1A1A;
+        }
+        .footer-text {
+            color: #FFFFFF;
+        }
+        .footer-link {
+            color: #9CA3AF; /* text-gray-400 */
+            transition: color 0.3s ease-in-out;
+        }
+        .footer-link:hover {
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen items-center p-0">
+    <!-- Header (copied from index.html) -->
+    <header class="header-bg w-full py-2 px-6 flex justify-between items-center shadow-md fixed top-0 z-10">
+        <a href="index.html" class="header-logo">
+            <!-- Saturn Image Icon -->
+            <img src="photos/planet.svg"
+                 alt="Saturn Icon"
+                 onerror="this.onerror=null;this.src='https://placehold.co/32x32/E0E0E0/6B7280?text=Saturn';"
+                 style="filter: grayscale(100%) brightness(50%);">
+        </a>
+        <div class="burger-icon" id="burgerIcon">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Menu (copied from index.html) -->
+    <nav class="mobile-nav" id="mobileNav">
+        <a href="index.html">Home</a>
+        <a href="skills.html">Skills & Expertise</a>
+        <a href="values.html">Core Values</a>
+        <a href="career.html">Career Journey</a>
+        <a href="interests.html">Beyond Work</a>
+        <a href="portfolio.html">Portfolio & Insights</a>
+    </nav>
+
+    <main class="flex flex-col items-center flex-grow w-full max-w-4xl mx-auto pt-16 pb-12 px-4">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-10 leading-tight text-center">
+            Beyond Work
+        </h1>
+
+        <section class="section-container w-full">
+            <p class="text-gray-700 leading-relaxed text-center mb-10">
+                While my professional life is dedicated to science and AI, my personal interests are very diverse and have shaped me as a person. These activities fuel my creativity, keep me grounded, and contribute to a well-rounded and happy life. Scroll down if you are curious...
+            </p>
+
+            <!-- Interest 1: Sports (Ultimate Frisbee, Cycling, Running, Hiking) -->
+            <div class="interest-item mb-8" id="sports-carousel">
+                <div class="carousel-container">
+                    <img src="photos\sports\frisbee_jump - Copy - Copy.png" alt="Sports Activities 1" class="carousel-image active">
+                    <img src="photos\sports\18664210_1976610562569902_2400701330471774815_n - Copy - Copy.jpg" alt="Sports Activities 2" class="carousel-image">
+                    <img src="photos\sports\acccb040-dc1a-4fd5-90df-fff097774ea5.JPG" alt="Sports Activities 3" class="carousel-image">
+                    <img src="photos\sports\IMG_4877.jpg" alt="Sports Activities 4" class="carousel-image">
+                    <img src="photos\sports\IMG_5112.jpg" alt="Sports Activities 5" class="carousel-image">
+                    <img src="photos\sports\IMG_8844.JPG" alt="Sports Activities 6" class="carousel-image">
+                    <img src="photos\sports\21015823_10154733961042882_8273615136456722791_o.jpg" alt="Sports Activities 7" class="carousel-image">
+                    <button class="carousel-button prev">&#10094;</button>
+                    <button class="carousel-button next">&#10095;</button>
+                    <div class="carousel-dots"></div>
+                </div>
+                <div class="interest-content">
+                    <h3 class="interest-title">Sports & Outdoors</h3>
+                    <p class="interest-description">
+                        Staying active is a huge part of my life. Ultimate frisbee, cycling, running, or hiking – these activities keep me energized and connected to nature. They have taught and keep teaching me discipline, teamwork, and resilience.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Interest 2: Women in STEM -->
+            <div class="interest-item mb-8" id="stem-carousel">
+                <div class="carousel-container">
+                    <img src="photos\women_in_stem\30703751_767388150119011_2089731653722177536_o.jpg" alt="Women in STEM 1" class="carousel-image active">
+                    <img src="photos\women_in_stem\ear01781.jpg" alt="Women in STEM 2" class="carousel-image">
+                    <img src="photos\women_in_stem\IMG_7342.png" alt="Women in STEM 3" class="carousel-image">
+                    <button class="carousel-button prev">&#10094;</button>
+                    <button class="carousel-button next">&#10095;</button>
+                    <div class="carousel-dots"></div>
+                </div>
+                <div class="interest-content">
+                    <h3 class="interest-title">Women in STEM</h3>
+                    <p class="interest-description">
+                        As a woman in science and technology, I'm passionate about promoting diversity and inclusion. I support initiatives that encourage young girls and women to pursue careers in science and tech, believing diverse perspectives drive better innovation.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Interest 3: LGBTQA+ Rights -->
+            <div class="interest-item mb-8" id="lgbtqa-carousel">
+                <div class="carousel-container">
+                    <img src="photos\lgbtqa+\IMG_6884.jpg" alt="LGBTQA+ Rights 1" class="carousel-image active">
+                    <img src="photos\lgbtqa+\IMG_8052.jpg" alt="LGBTQA+ Rights 2" class="carousel-image">
+                    <button class="carousel-button prev">&#10094;</button>
+                    <button class="carousel-button next">&#10095;</button>
+                    <div class="carousel-dots"></div>
+                </div>
+                <div class="interest-content">
+                    <h3 class="interest-title">LGBTQA+ Rights & Equality</h3>
+                    <p class="interest-description">
+                        I am a staunch advocate for LGBTQA+ rights and equality. I believe in a world where everyone is treated with dignity and respect.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Interest 4: My Dog Rosca -->
+            <div class="interest-item mb-8" id="rosca-carousel">
+                <div class="carousel-container">
+                    <img src="photos\rosca\IMG_4681.jpg" alt="My Dog Rosca 1" class="carousel-image active">
+                    <img src="photos\rosca\IMG_4546.jpg" alt="My Dog Rosca 2" class="carousel-image">
+                    <img src="photos\rosca\IMG_4295.jpg" alt="My Dog Rosca 3" class="carousel-image">
+                    <img src="photos\rosca\IMG_3814.jpg" alt="My Dog Rosca 4" class="carousel-image">
+                    <img src="photos\rosca\cb5b7496-5944-4985-9ab8-83764194f3e8.jpg" alt="My Dog Rosca 5" class="carousel-image">
+                    <img src="photos\rosca\IMG_2625.jpg" alt="My Dog Rosca 6" class="carousel-image">
+                    <button class="carousel-button prev">&#10094;</button>
+                    <button class="carousel-button next">&#10095;</button>
+                    <div class="carousel-dots"></div>
+                </div>
+                <div class="interest-content">
+                    <h3 class="interest-title">My Dog: Rosca</h3>
+                    <p class="interest-description">
+                        She brings immense joy and a healthy dose of chaos to my life. A constant reminder to appreciate the simple pleasures.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Interest 5: Catalunya -->
+            <div class="interest-item mb-8" id="catalunya-carousel">
+                <div class="carousel-container">
+                    <img src="photos\catalunya\IMG_1949.jpg" alt="Catalunya 1" class="carousel-image active">
+                    <img src="photos\catalunya\IMG_3055.jpg" alt="Catalunya 2" class="carousel-image">
+                    <img src="photos\catalunya\IMG_0167.jpg" alt="Catalunya 3" class="carousel-image">
+                    <button class="carousel-button prev">&#10094;</button>
+                    <button class="carousel-button next">&#10095;</button>
+                    <div class="carousel-dots"></div>
+                </div>
+                <div class="interest-content">
+                    <h3 class="interest-title">My Roots: Catalunya</h3>
+                    <p class="interest-description">
+                        I feel deeply connected to the place where I grew up. Its vibrant culture, rich history, and beautiful landscapes continue to inspire me. I cherish opportunities to visit and reconnect.
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer (copied from index.html) -->
+    <footer class="bg-[#1A1A1A] text-white p-6 text-center mt-12 w-full">
+        <div class="w-full">
+            <p>&copy; 2025 Helena Andrés Terre. All rights reserved.</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <a href="https://linkedin.com/in/helenaandres" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300">LinkedIn</a>
+                <a href="https://github.com/helenaandres" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300">GitHub</a>
+                <a href="mailto:your-email@example.com" class="text-gray-400 hover:text-white transition-colors duration-300">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const burgerIcon = document.getElementById('burgerIcon');
+            const mobileNav = document.getElementById('mobileNav');
+
+            // Burger menu toggle
+            burgerIcon.addEventListener('click', () => {
+                mobileNav.classList.toggle('open');
+                burgerIcon.classList.toggle('open');
+            });
+
+            // Close mobile nav when a link is clicked
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileNav.classList.remove('open');
+                    burgerIcon.classList.remove('open');
+                });
+            });
+
+            // Carousel functionality
+            class Carousel {
+                constructor(elementId) {
+                    this.carouselElement = document.getElementById(elementId);
+                    this.images = this.carouselElement.querySelectorAll('.carousel-image');
+                    this.prevButton = this.carouselElement.querySelector('.carousel-button.prev');
+                    this.nextButton = this.carouselElement.querySelector('.carousel-button.next');
+                    this.dotsContainer = this.carouselElement.querySelector('.carousel-dots');
+                    this.currentIndex = 0;
+
+                    this.initDots();
+                    this.showImage(this.currentIndex);
+
+                    this.prevButton.addEventListener('click', () => this.showImage(this.currentIndex - 1));
+                    this.nextButton.addEventListener('click', () => this.showImage(this.currentIndex + 1));
+                }
+
+                initDots() {
+                    this.images.forEach((_, index) => {
+                        const dot = document.createElement('span');
+                        dot.classList.add('dot');
+                        if (index === this.currentIndex) {
+                            dot.classList.add('active');
+                        }
+                        dot.addEventListener('click', () => this.showImage(index));
+                        this.dotsContainer.appendChild(dot);
+                    });
+                }
+
+                updateDots() {
+                    this.dotsContainer.querySelectorAll('.dot').forEach((dot, index) => {
+                        dot.classList.toggle('active', index === this.currentIndex);
+                    });
+                }
+
+                showImage(index) {
+                    // Loop around if index goes out of bounds
+                    if (index < 0) {
+                        index = this.images.length - 1;
+                    } else if (index >= this.images.length) {
+                        index = 0;
+                    }
+
+                    // Hide current image
+                    if (this.images[this.currentIndex]) {
+                        this.images[this.currentIndex].classList.remove('active');
+                    }
+
+                    // Show new image
+                    this.currentIndex = index;
+                    if (this.images[this.currentIndex]) {
+                        this.images[this.currentIndex].classList.add('active');
+                    }
+
+                    this.updateDots();
+                }
+            }
+
+            // Initialize carousels for each interest item
+            new Carousel('sports-carousel');
+            new Carousel('stem-carousel');
+            new Carousel('lgbtqa-carousel'); /* Changed order here */
+            new Carousel('rosca-carousel');
+            new Carousel('catalunya-carousel'); /* Removed coffee carousel */
+        });
+    </script>
+</body>
+</html>
